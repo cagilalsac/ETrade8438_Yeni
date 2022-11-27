@@ -1,21 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AppCore.Records.Bases;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;
 
 namespace AppCore.DataAccess.EntityFramework.Bases
 {
-    public abstract class RepoBase<TEntity> : IDisposable where TEntity : class, new() // Repository Pattern
+    public abstract class RepoBase<TEntity> : IDisposable where TEntity : RecordBase, new() // Repository Pattern
     {
-        protected readonly DbContext _dbContext;
+        public DbContext DbContext { get; set; }
 
         protected RepoBase(DbContext dbContext)
         {
-            _dbContext = dbContext;
+            DbContext = dbContext;
         }
 
         public IQueryable<TEntity> Query(params Expression<Func<TEntity, object?>>[] entitiesToInclude)
         {
-            var query = _dbContext.Set<TEntity>().AsQueryable();
+            var query = DbContext.Set<TEntity>().AsQueryable();
             foreach (var entityToInclude in entitiesToInclude)
             {
                 query = query.Include(entityToInclude);
@@ -30,9 +31,11 @@ namespace AppCore.DataAccess.EntityFramework.Bases
             return query;
         }
 
+        public 
+
         public void Dispose()
         {
-            _dbContext?.Dispose();
+            DbContext?.Dispose();
             GC.SuppressFinalize(this);
         }
     }
