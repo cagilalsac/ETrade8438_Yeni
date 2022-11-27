@@ -10,6 +10,8 @@ namespace Business.Services
 
     public class ProductService : IProductService
     {
+
+
         public Result Add(ProductModel model)
         {
             throw new NotImplementedException();
