@@ -1,6 +1,7 @@
 ﻿#nullable disable
 
 using AppCore.Records.Bases;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Business.Models
@@ -10,6 +11,7 @@ namespace Business.Models
     {
         [Required]
         [StringLength(200)]
+        [DisplayName("Product Name")]
         public string Name { get; set; }
 
         [StringLength(500)]
