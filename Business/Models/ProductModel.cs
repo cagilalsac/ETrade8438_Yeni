@@ -17,6 +17,7 @@ namespace Business.Models
         [StringLength(500)]
         public string Description { get; set; }
 
+        [DisplayName("Unit Price")]
         public double UnitPrice { get; set; }
 
         public int StockAmount { get; set; }
