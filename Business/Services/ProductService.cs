@@ -1,6 +1,8 @@
 ﻿using AppCore.Business.Services.Bases;
 using AppCore.Results.Bases;
 using Business.Models;
+using DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Business.Services
 {
@@ -10,7 +12,12 @@ namespace Business.Services
 
     public class ProductService : IProductService
     {
+        private readonly ProductRepoBase _productRepo;
 
+        public ProductService(ProductRepoBase productRepo)
+        {
+            _productRepo = productRepo;
+        }
 
         public Result Add(ProductModel model)
         {
@@ -24,12 +31,23 @@ namespace Business.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _productRepo.Dispose();
         }
 
         public IQueryable<ProductModel> Query()
         {
-            throw new NotImplementedException();
+            // AutoMapper
+            return _productRepo.Query().Select(p => new ProductModel()
+            {
+                CategoryId = p.CategoryId,
+                Description = p.Description,
+                ExpirationDate = p.ExpirationDate,
+                Guid = p.Guid,
+                Id = p.Id,
+                Name = p.Name,
+                StockAmount = p.StockAmount,
+                UnitPrice = p.UnitPrice
+            });
         }
 
         public Result Update(ProductModel model)

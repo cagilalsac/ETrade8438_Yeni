@@ -32,6 +32,7 @@ namespace AppCore.DataAccess.EntityFramework.Bases
 
         public virtual void Add(TEntity entity, bool save = true)
         {
+            entity.Guid = Guid.NewGuid().ToString();
             DbContext.Set<TEntity>().Add(entity);
             if (save)
                 Save();
