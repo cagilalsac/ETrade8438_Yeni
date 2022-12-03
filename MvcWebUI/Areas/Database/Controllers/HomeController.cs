@@ -2,6 +2,7 @@
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using System.Text;
 
 namespace MvcWebUI.Areas.Database.Controllers
 {
@@ -88,7 +89,7 @@ namespace MvcWebUI.Areas.Database.Controllers
                 }
             });
             _db.SaveChanges();
-            return Content("<label style=\"color:red\";><b>Database seed successful.</b></label>");
+            return Content("<label style=\"color:red\";><b>Database seed successful.</b></label>", "text/html", Encoding.UTF8);
         }
     }
 }
