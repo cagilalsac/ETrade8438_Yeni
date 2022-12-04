@@ -2,28 +2,32 @@
 
 <form action="/Products/Create" method="post">
     <div class="mb-3">
-        <label class="form-label">@Html.LabelFor(m => m.Name)</label>
+        @Html.LabelFor(m => m.Name, new { @class = "form-label" })
         @*<input type="text" class="form-control" name="Name">*@
         @*@Html.TextBox("Name", new { @class = "form-control" })*@
         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
     </div>
     <div class="mb-3">
-        <label class="form-label">Description</label>
-        <textarea type="text" class="form-control" name="Description"></textarea>
+        @Html.LabelFor(m => m.Description, new { @class = "form-label" })
+        @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
     </div>
-
-
-
-
-
-
     <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        @Html.LabelFor(m => m.UnitPrice, new { @class = "form-label" })
+        @Html.TextBoxFor(m => m.UnitPrice, new { @class = "form-control" })
     </div>
-    <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    <div class="mb-3">
+        @Html.LabelFor(m => m.StockAmount, new { @class = "form-label" })
+        @Html.EditorFor(m => m.StockAmount)
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="mb-3">
+        @Html.LabelFor(m => m.ExpirationDate, new { @class = "form-label" })
+        @Html.EditorFor(m => m.ExpirationDate)
+    </div>
+    <div class="mb-3">
+        @Html.LabelFor(m => m.CategoryId, new { @class = "form-label" })
+        @Html.DropDownListFor(m => m.CategoryId, null, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-outline-success">Save</button>
+    &nbsp;&nbsp;
+    <button type="reset" class="btn btn-success">Reset</button>
 </form>

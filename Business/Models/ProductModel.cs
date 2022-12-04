@@ -28,6 +28,7 @@ namespace Business.Models
         public DateTime? ExpirationDate { get; set; }
 
         [Required]
+        [DisplayName("Category")]
         public int? CategoryId { get; set; }
         #endregion
 
