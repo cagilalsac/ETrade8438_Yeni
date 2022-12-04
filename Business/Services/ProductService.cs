@@ -3,6 +3,7 @@ using AppCore.Results.Bases;
 using Business.Models;
 using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Globalization;
 
 namespace Business.Services
 {
@@ -37,7 +38,7 @@ namespace Business.Services
         public IQueryable<ProductModel> Query()
         {
             // AutoMapper
-            return _productRepo.Query().Select(p => new ProductModel()
+            return _productRepo.Query(p => p.Category).Select(p => new ProductModel()
             {
                 CategoryId = p.CategoryId,
                 Description = p.Description,
@@ -46,7 +47,11 @@ namespace Business.Services
                 Id = p.Id,
                 Name = p.Name,
                 StockAmount = p.StockAmount,
-                UnitPrice = p.UnitPrice
+                UnitPrice = p.UnitPrice,
+
+                UnitPriceDisplay = p.UnitPrice.ToString("C2"),
+                ExpirationDateDisplay = p.ExpirationDate.HasValue ? p.ExpirationDate.Value.ToString("yyyy/MM/dd") : "",
+                CategoryDisplay = p.Category.Name
             });
         }
 

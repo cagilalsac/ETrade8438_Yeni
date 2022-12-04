@@ -9,6 +9,7 @@ namespace Business.Models
     // MVC Fluent Validation
     public class ProductModel : RecordBase
     {
+        #region Entity Özellikleri
         [Required]
         [StringLength(200)]
         [DisplayName("Product Name")]
@@ -20,11 +21,25 @@ namespace Business.Models
         [DisplayName("Unit Price")]
         public double UnitPrice { get; set; }
 
+        [DisplayName("Stock Amount")]
         public int StockAmount { get; set; }
 
+        [DisplayName("Expiration Date")]
         public DateTime? ExpirationDate { get; set; }
 
         [Required]
         public int? CategoryId { get; set; }
+        #endregion
+
+        #region Sayfanın İhtiyacı Olan Özellikler
+        [DisplayName("Unit Price")]
+        public string UnitPriceDisplay { get; set; }
+
+        [DisplayName("Expiration Date")]
+        public string ExpirationDateDisplay { get; set; }
+
+        [DisplayName("Category")]
+        public string CategoryDisplay { get; set; }
+        #endregion
     }
 }

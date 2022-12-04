@@ -1,9 +1,26 @@
 ﻿using Business.Services;
 using DataAccess.Contexts;
 using DataAccess.Repositories;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Culture
+List<CultureInfo> cultures = new List<CultureInfo>()
+{
+    new CultureInfo("en-US")
+};
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture(cultures.FirstOrDefault().Name);
+    options.SupportedCultures = cultures;
+    options.SupportedUICultures = cultures;
+});
+#endregion
 
 // Add services to the container.
 // Windows Authentication
@@ -36,6 +53,15 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+#region Culture
+app.UseRequestLocalization(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture(cultures.FirstOrDefault().Name);
+    options.SupportedCultures = cultures;
+    options.SupportedUICultures = cultures;
+});
+#endregion
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

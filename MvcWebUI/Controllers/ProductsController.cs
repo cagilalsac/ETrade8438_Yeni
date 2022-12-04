@@ -1,4 +1,5 @@
-﻿using Business.Services;
+﻿using Business.Models;
+using Business.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MvcWebUI.Controllers
@@ -18,6 +19,18 @@ namespace MvcWebUI.Controllers
             var model = _productService.Query().ToList();
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(ProductModel model)
+        {
+            return View();
         }
     }
 }
