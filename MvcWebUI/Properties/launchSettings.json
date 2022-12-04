@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "MvcWebUI": {
+    "PROD": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

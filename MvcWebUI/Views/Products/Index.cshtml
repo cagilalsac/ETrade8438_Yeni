@@ -16,6 +16,15 @@
         <th>
             @Html.DisplayNameFor(modelItem => modelItem.UnitPrice)
         </th>
+        <th>
+            @Html.DisplayNameFor(modelItem => modelItem.StockAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(modelItem => modelItem.ExpirationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(modelItem => modelItem.CategoryId)
+        </th>
     </tr>
     @foreach (var product in Model)
     {
@@ -27,6 +36,15 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => product.UnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.StockAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.ExpirationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => product.CategoryId)
             </td>
         </tr>
     }
