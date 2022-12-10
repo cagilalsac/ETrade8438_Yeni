@@ -10,4 +10,11 @@ namespace DataAccess.Repositories
         {
         }
     }
+
+    public class CategoryRepo : CategoryRepoBase
+    {
+        public CategoryRepo(ETradeContext dbContext) : base(dbContext)
+        {
+        }
+    }
 }
