@@ -7,10 +7,12 @@ namespace MvcWebUI.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
 
         // controller/action/id?
@@ -27,7 +29,8 @@ namespace MvcWebUI.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost] // Action method selector
+        [ValidateAntiForgeryToken]
         public IActionResult Create(ProductModel model)
         {
             return View();
