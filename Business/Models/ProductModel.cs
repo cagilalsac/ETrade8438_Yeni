@@ -22,11 +22,13 @@ namespace Business.Models
 
         [DisplayName("Unit Price")]
         [Range(0, double.MaxValue, ErrorMessage = "{0} must be betwwen {1} and {2}!")]
-        public double UnitPrice { get; set; }
+        [Required(ErrorMessage = "{0} is required!")]
+        public double? UnitPrice { get; set; }
 
         [DisplayName("Stock Amount")]
         [Range(0, 1000, ErrorMessage = "{0} must be betwwen {1} and {2}!")]
-        public int StockAmount { get; set; }
+        [Required(ErrorMessage = "{0} is required!")]
+        public int? StockAmount { get; set; }
 
         [DisplayName("Expiration Date")]
         public DateTime? ExpirationDate { get; set; }

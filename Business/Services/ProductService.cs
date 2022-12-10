@@ -40,8 +40,8 @@ namespace Business.Services
                 Description = model.Description?.Trim(),
                 ExpirationDate = model.ExpirationDate,
                 Name = model.Name.Trim(),
-                StockAmount = model.StockAmount,
-                UnitPrice = model.UnitPrice
+                StockAmount = model.StockAmount.Value,
+                UnitPrice = model.UnitPrice.Value
             };
             _productRepo.Add(entity);
             return new SuccessResult();
