@@ -1,5 +1,10 @@
 ﻿@model ProductModel
 
+@*@if (ViewData["Message"] is not null)
+{
+    <p class="text-danger">@ViewData["Message"]</p>
+}*@
+
 @*<form action="/Products/Create" method="post">*@
 @*@using (Html.BeginForm("Create", "Products", FormMethod.Post))*@
 @using (Html.BeginForm())

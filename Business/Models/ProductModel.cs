@@ -10,8 +10,10 @@ namespace Business.Models
     public class ProductModel : RecordBase
     {
         #region Entity Özellikleri
-        [Required]
-        [StringLength(200)]
+        [Required(ErrorMessage = "{0} is required!")]
+        //[StringLength(200, ErrorMessage = "{0} must be maximum {1} characters!")]
+        [MinLength(3, ErrorMessage = "{0} must be minimum {1} characters!")]
+        [MaxLength(200, ErrorMessage = "{0} must be maximum {1} characters!")]
         [DisplayName("Product Name")]
         public string Name { get; set; }
 
@@ -19,9 +21,11 @@ namespace Business.Models
         public string Description { get; set; }
 
         [DisplayName("Unit Price")]
+        [Range(0, double.MaxValue, ErrorMessage = "{0} must be betwwen {1} and {2}!")]
         public double UnitPrice { get; set; }
 
         [DisplayName("Stock Amount")]
+        [Range(0, 1000, ErrorMessage = "{0} must be betwwen {1} and {2}!")]
         public int StockAmount { get; set; }
 
         [DisplayName("Expiration Date")]
