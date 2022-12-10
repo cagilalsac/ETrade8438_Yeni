@@ -1,4 +1,5 @@
 ﻿using AppCore.Business.Services.Bases;
+using AppCore.Results;
 using AppCore.Results.Bases;
 using Business.Models;
 using DataAccess.Entities;
@@ -23,6 +24,13 @@ namespace Business.Services
 
         public Result Add(ProductModel model)
         {
+            //var dbEntity = _productRepo.Query().SingleOrDefault(p => p.Name.ToUpper() == model.Name.ToUpper().Trim());
+            //var dbEntity = _productRepo.Query(p => p.Name.ToUpper() == model.Name.ToUpper().Trim()).SingleOrDefault();
+            //if (dbEntity is not null)
+            //    return new ErrorResult("Product with same name exists!");
+            if (_productRepo.Query().Any(p => p.Name.ToUpper() == model.Name.ToUpper().Trim()))
+                return new ErrorResult("Product with same name exists!"); // All
+
             var entity = new Product()
             {
                 //CategoryId = model.CategoryId.HasValue ? model.CategoryId.Value : 0,
@@ -30,8 +38,13 @@ namespace Business.Services
                 CategoryId = model.CategoryId.Value,
                 //Description = (model.Description ?? "").Trim()
                 Description = model.Description?.Trim(),
-                
-            }
+                ExpirationDate = model.ExpirationDate,
+                Name = model.Name.Trim(),
+                StockAmount = model.StockAmount,
+                UnitPrice = model.UnitPrice
+            };
+            _productRepo.Add(entity);
+            return new SuccessResult();
         }
 
         public Result Delete(int id)
