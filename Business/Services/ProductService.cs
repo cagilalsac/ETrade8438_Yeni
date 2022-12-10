@@ -1,6 +1,7 @@
 ﻿using AppCore.Business.Services.Bases;
 using AppCore.Results.Bases;
 using Business.Models;
+using DataAccess.Entities;
 using DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Globalization;
@@ -22,7 +23,15 @@ namespace Business.Services
 
         public Result Add(ProductModel model)
         {
-            throw new NotImplementedException();
+            var entity = new Product()
+            {
+                //CategoryId = model.CategoryId.HasValue ? model.CategoryId.Value : 0,
+                //CategoryId = model.CategoryId ?? 0,
+                CategoryId = model.CategoryId.Value,
+                //Description = (model.Description ?? "").Trim()
+                Description = model.Description?.Trim(),
+                
+            }
         }
 
         public Result Delete(int id)

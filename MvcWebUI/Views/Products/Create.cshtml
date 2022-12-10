@@ -34,7 +34,7 @@
     </div>
     <div class="mb-3">
         @Html.LabelFor(m => m.CategoryId, new { @class = "form-label" })
-        @Html.DropDownListFor(m => m.CategoryId, null, new { @class = "form-control" })
+        @Html.DropDownListFor(m => m.CategoryId, (SelectList)ViewBag.Categories, "-- Select -- ", new { @class = "form-control" }) @* (ViewBag.Categories as SelectList) *@
     </div>
     <button type="submit" class="btn btn-outline-success">Save</button>
     @:&nbsp;&nbsp;

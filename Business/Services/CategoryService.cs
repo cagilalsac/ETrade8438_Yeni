@@ -1,6 +1,7 @@
 ﻿using AppCore.Business.Services.Bases;
 using AppCore.Results.Bases;
 using Business.Models;
+using DataAccess.Repositories;
 
 namespace Business.Services
 {
@@ -30,12 +31,20 @@ namespace Business.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _categoryRepo.Dispose();
         }
 
         public IQueryable<CategoryModel> Query()
         {
-            throw new NotImplementedException();
+            return _categoryRepo.Query().OrderBy(c => c.Name).Select(c => new CategoryModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                Guid = c.Guid,
+
+                // CategoryNameDescriptionDisplay = c.Name + " (" + c.Description + ")"
+            });
         }
 
         public Result Update(CategoryModel model)

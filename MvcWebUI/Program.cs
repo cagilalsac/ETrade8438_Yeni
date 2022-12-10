@@ -37,8 +37,10 @@ builder.Services.AddDbContext<ETradeContext>(options => options.UseSqlServer(con
 //builder.Services.AddSingleton<ProductRepoBase, ProductRepo>();
 //builder.Services.AddTransient<ProductRepoBase, ProductRepo>();
 builder.Services.AddScoped<ProductRepoBase, ProductRepo>();
+builder.Services.AddScoped<CategoryRepoBase, CategoryRepo>();
 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 #endregion
 
 
