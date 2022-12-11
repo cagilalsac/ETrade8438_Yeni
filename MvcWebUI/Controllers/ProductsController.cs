@@ -1,59 +1,119 @@
-﻿using AppCore.Results.Bases;
-using Business.Models;
-using Business.Services;
+﻿#nullable disable
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using DataAccess.Contexts;
+using DataAccess.Entities;
+using Business.Services;
+using Business.Models;
 
 namespace MvcWebUI.Controllers
 {
     public class ProductsController : Controller
     {
+        // Add service injections here
         private readonly IProductService _productService;
-        private readonly ICategoryService _categoryService;
 
-        public ProductsController(IProductService productService, ICategoryService categoryService)
+        public ProductsController(IProductService productService)
         {
             _productService = productService;
-            _categoryService = categoryService;
         }
 
-        // controller/action/id?
-        public IActionResult Index() // ~/Products/Index
+        // GET: Products
+        public IActionResult Index()
         {
-            var model = _productService.Query().ToList();
-
-            return View(model);
+            List<ProductModel> productList = null; // TODO: Add get list service logic here
+            return View(productList);
         }
 
-        [HttpGet]
+        // GET: Products/Details/5
+        public IActionResult Details(int id)
+        {
+            ProductModel product = null; // TODO: Add get item service logic here
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+        // GET: Products/Create
         public IActionResult Create()
         {
-            var categories = _categoryService.Query().ToList();
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
+            ViewData["CategoryId"] = new SelectList(null, "Id", "Name");
             return View();
         }
 
-        [HttpPost] // Action method selector
+        // POST: Products/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ProductModel model)
+        public IActionResult Create(ProductModel product)
         {
             if (ModelState.IsValid)
             {
-                Result result = _productService.Add(model);
-                if (result.IsSuccessful) // success result
-                {
-                    //return RedirectToAction("Index", "Products");
-                    return RedirectToAction(nameof(Index));
-
-                    //return Redirect("https://google.com");
-                }
-                // error result
-                //ViewData["Message"] = result.Message;
-                ModelState.AddModelError("", result.Message);
+                // TODO: Add insert service logic here
+                return RedirectToAction(nameof(Index));
             }
-            //ViewBag.Categories = new SelectList(_categoryService.Query().ToList(), "Id", "Name");
-            ViewBag.Categories = new SelectList(_categoryService.Query().ToList(), "Id", "Name", model.CategoryId);
-            return View(model);
+            // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
+            ViewData["CategoryId"] = new SelectList(null, "Id", "Name", product.CategoryId);
+            return View(product);
         }
-    }
+
+        // GET: Products/Edit/5
+        public IActionResult Edit(int id)
+        {
+            ProductModel product = null; // TODO: Add get item service logic here
+            if (product == null)
+            {
+                return NotFound();
+            }
+            // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
+            ViewData["CategoryId"] = new SelectList(null, "Id", "Name", product.CategoryId);
+            return View(product);
+        }
+
+        // POST: Products/Edit
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(ProductModel product)
+        {
+            if (ModelState.IsValid)
+            {
+                // TODO: Add update service logic here
+                return RedirectToAction(nameof(Index));
+            }
+            // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
+            ViewData["CategoryId"] = new SelectList(null, "Id", "Name", product.CategoryId);
+            return View(product);
+        }
+
+        // GET: Products/Delete/5
+        public IActionResult Delete(int id)
+        {
+            ProductModel product = null; // TODO: Add get item service logic here
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+        // POST: Products/Delete
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            // TODO: Add delete service logic here
+            return RedirectToAction(nameof(Index));
+        }
+	}
 }

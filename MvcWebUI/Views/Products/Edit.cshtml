@@ -1,7 +1,7 @@
 ﻿@model ProductModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-12">
-        <form asp-action="Create">
+        <form asp-action="Edit">
 		@Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="row mb-3">
@@ -57,6 +57,7 @@
 					<span asp-validation-for="CategoryId" class="text-danger"></span>
 				</div>
             </div>
+            <input type="hidden" asp-for="Id" />
             <div class="row mb-3">
                 <label asp-for="Guid" class="col-2 col-form-label"></label>
 				<div class="col-5">
