@@ -1,7 +1,7 @@
 ﻿@model ProductModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Product";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-12">
-        <form asp-action="Create">
+        <form asp-action="Create" autocomplete="off">
 		@Html.AntiForgeryToken()
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="row mb-3">
@@ -23,7 +23,7 @@
             <div class="row mb-3">
                 <label asp-for="Description" class="col-2 col-form-label"></label>
 				<div class="col-5">
-					<input asp-for="Description" class="form-control" />
+					<textarea asp-for="Description" class="form-control"></textarea>
 					<span asp-validation-for="Description" class="text-danger"></span>
 				</div>
             </div>
@@ -57,20 +57,14 @@
 					<span asp-validation-for="CategoryId" class="text-danger"></span>
 				</div>
             </div>
-            <div class="row mb-3">
-                <label asp-for="Guid" class="col-2 col-form-label"></label>
-				<div class="col-5">
-					<input asp-for="Guid" class="form-control" />
-					<span asp-validation-for="Guid" class="text-danger"></span>
-				</div>
-            </div>
+            
             <div class="row mb-3">
 				<div class="offset-2 col-5">
 					<input type="submit" value="Save" class="btn btn-primary" />
 					&nbsp;&nbsp;
                     <button type="reset" class="btn btn-outline-primary">Reset</button>
 					&nbsp;&nbsp;
-					<a asp-action="Index">Back to List</a>
+					<a asp-action="Index">Back to Product List</a>
 				</div>
             </div>
         </form>

@@ -1,7 +1,7 @@
 ﻿@model ProductModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Product Details";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -23,10 +23,10 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-2">
-            @Html.DisplayNameFor(model => model.UnitPrice)
+            @Html.DisplayNameFor(model => model.UnitPriceDisplay)
         </dt>
         <dd class="col-10">
-            @Html.DisplayFor(model => model.UnitPrice)
+            @Html.DisplayFor(model => model.UnitPriceDisplay)
         </dd>
         <dt class="col-2">
             @Html.DisplayNameFor(model => model.StockAmount)
@@ -35,28 +35,22 @@
             @Html.DisplayFor(model => model.StockAmount)
         </dd>
         <dt class="col-2">
-            @Html.DisplayNameFor(model => model.ExpirationDate)
+            @Html.DisplayNameFor(model => model.ExpirationDateDisplay)
         </dt>
         <dd class="col-10">
-            @Html.DisplayFor(model => model.ExpirationDate)
+            @Html.DisplayFor(model => model.ExpirationDateDisplay)
         </dd>
         <dt class="col-2">
-            @Html.DisplayNameFor(model => model.Category)
+            @Html.DisplayNameFor(model => model.CategoryDisplay)
         </dt>
         <dd class="col-10">
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
-        <dt class="col-2">
-            @Html.DisplayNameFor(model => model.Guid)
-        </dt>
-        <dd class="col-10">
-            @Html.DisplayFor(model => model.Guid)
+            @Html.DisplayFor(model => model.CategoryDisplay)
         </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>&nbsp;|&nbsp;
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Back to Product List</a>
 </div>
 
 
