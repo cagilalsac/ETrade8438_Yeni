@@ -14,5 +14,9 @@ namespace Business.Models
 
         public string Description { get; set; }
         #endregion
+
+        #region Yeni ihtiyacımız olan özellik
+        public int ProductCountDisplay { get; set; }
+        #endregion
     }
 }
