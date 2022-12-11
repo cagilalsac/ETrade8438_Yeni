@@ -17,16 +17,18 @@ namespace MvcWebUI.Controllers
     {
         // Add service injections here
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         }
 
         // GET: Products
         public IActionResult Index()
         {
-            List<ProductModel> productList = null; // TODO: Add get list service logic here
+            List<ProductModel> productList = _productService.Query().ToList(); // TODO: Add get list service logic here
             return View(productList);
         }
 
