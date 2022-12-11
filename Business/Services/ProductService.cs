@@ -49,7 +49,9 @@ namespace Business.Services
 
         public Result Delete(int id)
         {
-            throw new NotImplementedException();
+            //_productRepo.Delete(p => p.Id == id);
+            _productRepo.Delete(id);
+            return new SuccessResult();
         }
 
         public void Dispose()
@@ -79,7 +81,20 @@ namespace Business.Services
 
         public Result Update(ProductModel model)
         {
-            throw new NotImplementedException();
+            if (_productRepo.Query().Any(p => p.Name.ToUpper() == model.Name.ToUpper().Trim() && p.Id != model.Id))
+                return new ErrorResult("Product with same name exists!");
+            var entity = new Product()
+            {
+                CategoryId = model.CategoryId.Value,
+                Description = model.Description?.Trim(),
+                ExpirationDate = model.ExpirationDate,
+                Name = model.Name.Trim(),
+                StockAmount = model.StockAmount.Value,
+                UnitPrice = model.UnitPrice.Value,
+                Id = model.Id // !!!
+            };
+            _productRepo.Update(entity);
+            return new SuccessResult();
         }
     }
 }

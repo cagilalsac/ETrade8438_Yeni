@@ -75,13 +75,14 @@ namespace MvcWebUI.Controllers
         // GET: Products/Edit/5
         public IActionResult Edit(int id)
         {
-            ProductModel product = null; // TODO: Add get item service logic here
+            ProductModel product = _productService.Query().SingleOrDefault(p => p.Id == id); // TODO: Add get item service logic here
             if (product == null)
             {
-                return NotFound();
+                //return NotFound();
+                return View("_Error", "Product not found!");
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(null, "Id", "Name", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
             return View(product);
         }
 
@@ -95,30 +96,34 @@ namespace MvcWebUI.Controllers
             if (ModelState.IsValid)
             {
                 // TODO: Add update service logic here
-                return RedirectToAction(nameof(Index));
+                var result = _productService.Update(product);
+                if (result.IsSuccessful)
+                    return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", result.Message);
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
-            ViewData["CategoryId"] = new SelectList(null, "Id", "Name", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
             return View(product);
         }
 
         // GET: Products/Delete/5
         public IActionResult Delete(int id)
         {
-            ProductModel product = null; // TODO: Add get item service logic here
+            ProductModel product = _productService.Query().SingleOrDefault(p => p.Id == id); // TODO: Add get item service logic here
             if (product == null)
             {
-                return NotFound();
+                //return NotFound();
+                return View("_Error", "Product not found!");
             }
             return View(product);
         }
 
         // POST: Products/Delete
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             // TODO: Add delete service logic here
+            _productService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 	}
