@@ -35,7 +35,7 @@ namespace Business.Models
 
         [Required]
         [DisplayName("Category")]
-        public int? CategoryId { get; set; }
+        public int? CategoryId { get; set; } // DropDownList
         #endregion
 
         #region Sayfanın İhtiyacı Olan Özellikler
@@ -47,6 +47,12 @@ namespace Business.Models
 
         [DisplayName("Category")]
         public string CategoryDisplay { get; set; }
+
+        [DisplayName("Stores")]
+        public string StoresDisplay { get; set; }
+
+        [DisplayName("Stores")]
+        public List<int> StoreIds { get; set; } // ListBox
         #endregion
     }
 }

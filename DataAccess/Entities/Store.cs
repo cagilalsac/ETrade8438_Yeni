@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Entities
 {
-    public class Store : RecordBase // Mağaza
+    public class Store : RecordBase, ISoftDelete // Mağaza
     {
         [Required]
         [StringLength(150)]
@@ -15,5 +15,7 @@ namespace DataAccess.Entities
 
         [DisplayName("Virtual")]
         public bool IsVirtual { get; set; }
+        public bool IsDeleted { get; set; }
+        public List<ProductStore> ProductStores { get; set; }
     }
 }

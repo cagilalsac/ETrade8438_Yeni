@@ -18,15 +18,17 @@ namespace MvcWebUI.Controllers
         // Add service injections here
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IStoreService _storeService;
 
-        public ProductsController(IProductService productService, ICategoryService categoryService)
-        {
-            _productService = productService;
-            _categoryService = categoryService;
-        }
+		public ProductsController(IProductService productService, ICategoryService categoryService, IStoreService storeService)
+		{
+			_productService = productService;
+			_categoryService = categoryService;
+			_storeService = storeService;
+		}
 
-        // GET: Products
-        public IActionResult Index()
+		// GET: Products
+		public IActionResult Index()
         {
             List<ProductModel> productList = _productService.Query().ToList(); // TODO: Add get list service logic here
             return View(productList);
@@ -49,6 +51,7 @@ namespace MvcWebUI.Controllers
         {
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name");
+            ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name");
             return View();
         }
 
@@ -69,7 +72,8 @@ namespace MvcWebUI.Controllers
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
-            return View(product);
+			ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name", product.StoreIds);
+			return View(product);
         }
 
         // GET: Products/Edit/5
@@ -83,7 +87,8 @@ namespace MvcWebUI.Controllers
             }
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             ViewData["CategoryId"] = new SelectList(_categoryService.Query().ToList(), "Id", "Name", product.CategoryId);
-            return View(product);
+			ViewBag.Stores = new MultiSelectList(_storeService.Query().ToList(), "Id", "Name", product.StoreIds);
+			return View(product);
         }
 
         // POST: Products/Edit

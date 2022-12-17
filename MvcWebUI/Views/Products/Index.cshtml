@@ -27,6 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CategoryDisplay)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StoresDisplay)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -48,6 +51,9 @@
 					<td>
 						@Html.DisplayFor(modelItem => item.CategoryDisplay)
 					</td>
+                <td>
+                    @Html.Raw(item.StoresDisplay)
+                </td>
 					<td>
                         @*@Html.ActionLink("Details", "Details", new { id = item.Id })*@
                         @*<a asp-action="Details" asp-controller="Products" asp-route-id="@item.Id">Details</a>*@
