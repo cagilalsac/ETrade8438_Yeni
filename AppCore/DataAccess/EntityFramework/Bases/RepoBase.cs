@@ -30,6 +30,11 @@ namespace AppCore.DataAccess.EntityFramework.Bases
             return query;
         }
 
+        public virtual bool Exists(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object?>>[] entitiesToInclude)
+        {
+            return Query(entitiesToInclude).Any(predicate);
+        }
+
         public virtual void Add(TEntity entity, bool save = true)
         {
             entity.Guid = Guid.NewGuid().ToString();

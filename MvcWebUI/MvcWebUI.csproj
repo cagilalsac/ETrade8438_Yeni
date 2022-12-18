@@ -27,8 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Accounts\Data\" />
-    <Folder Include="Areas\Accounts\Models\" />
     <Folder Include="Areas\Database\Data\" />
     <Folder Include="Areas\Database\Models\" />
     <Folder Include="Areas\Database\Views\" />
