@@ -1,6 +1,8 @@
 ﻿using DataAccess.Contexts;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 using System.Globalization;
 using System.Text;
 
@@ -18,11 +20,41 @@ namespace MvcWebUI.Areas.Database.Controllers
 
         public IActionResult Index()
         {
+            var productStores = _db.ProductStores.ToList();
+            _db.ProductStores.RemoveRange(productStores);
+
+            var stores = _db.Stores.ToList();
+            _db.Stores.RemoveRange(stores);
+
             var products = _db.Products.ToList();
             _db.Products.RemoveRange(products);
 
             var categories = _db.Categories.ToList();
             _db.Categories.RemoveRange(categories);
+
+            var users = _db.Users.ToList();
+            _db.Users.RemoveRange(users);
+
+            var roles = _db.Roles.ToList();
+            _db.Roles.RemoveRange(roles);
+
+            if (roles.Count > 0)
+            {
+                _db.Database.ExecuteSqlRaw("dbcc CHECKIDENT ('Roles', RESEED, 0)");
+            }
+
+            _db.Stores.Add(new Store()
+            {
+                Name = "Hepsiburada",
+                IsVirtual = true
+            });
+            _db.Stores.Add(new Store()
+            {
+                Name = "Vatan",
+                IsVirtual = false
+            });
+
+            _db.SaveChanges();
 
             _db.Categories.Add(new Category()
             {
@@ -35,29 +67,65 @@ namespace MvcWebUI.Areas.Database.Controllers
                         Name = "Laptop",
                         UnitPrice = 3000.5,
                         ExpirationDate = new DateTime(2032, 1, 27),
-                        StockAmount = 10
+                        StockAmount = 10,
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Hepsiburada").Id
+                            }
+                        }
                     },
                     new Product()
                     {
                         Name = "Mouse",
                         UnitPrice = 20.5,
                         StockAmount = 50,
-                        Description = "Computer peripheral"
+                        Description = "Computer peripheral",
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Hepsiburada").Id
+                            },
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     },
                     new Product()
                     {
                         Name = "Keyboard",
                         UnitPrice = 40,
                         StockAmount = 45,
-                        Description = "Computer peripheral"
+                        Description = "Computer peripheral",
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Hepsiburada").Id
+                            },
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     },
                     new Product()
                     {
                         Name = "Monitor",
                         UnitPrice = 2500,
-                        ExpirationDate = DateTime.Parse("05/19/2027", new CultureInfo("en-US")),
+                        ExpirationDate = DateTime.Parse("05/19/2027"),
                         StockAmount = 20,
-                        Description = "Computer peripheral"
+                        Description = "Computer peripheral",
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     }
                 }
             });
@@ -78,17 +146,64 @@ namespace MvcWebUI.Areas.Database.Controllers
                         Name = "Receiver",
                         UnitPrice = 5000,
                         StockAmount = 30,
-                        Description = "Home theater system component"
+                        Description = "Home theater system component",
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     },
                     new Product()
                     {
                         Name = "Equalizer",
                         UnitPrice = 1000,
-                        StockAmount = 40
+                        StockAmount = 40,
+                        ProductStores = new List<ProductStore>()
+                        {
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Hepsiburada").Id
+                            },
+                            new ProductStore()
+                            {
+                                StoreId = _db.Stores.SingleOrDefault(s => s.Name == "Vatan").Id
+                            }
+                        }
                     }
                 }
             });
+
+            _db.Roles.Add(new Role()
+            {
+                Name = "Admin",
+                Users = new List<User>()
+                {
+                    new User()
+                    {
+                        IsActive = true,
+                        Password = "cagil",
+                        UserName = "cagil"
+                    }
+                }
+            });
+            _db.Roles.Add(new Role()
+            {
+                Name = "User",
+                Users = new List<User>()
+                {
+                    new User()
+                    {
+                        IsActive = true,
+                        Password = "leo",
+                        UserName = "leo"
+                    }
+                }
+            });
+
             _db.SaveChanges();
+
             return Content("<label style=\"color:red\";><b>Database seed successful.</b></label>", "text/html", Encoding.UTF8);
         }
     }

@@ -2,9 +2,11 @@
 
 using AppCore.Records.Bases;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Entities
 {
+    //[Table("Urunler")]
     public class Product : RecordBase
     {
         [Required]
