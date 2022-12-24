@@ -46,5 +46,10 @@ namespace MvcWebUI.Areas.Account.Controllers
             }
             return View();
         }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
     }
 }
