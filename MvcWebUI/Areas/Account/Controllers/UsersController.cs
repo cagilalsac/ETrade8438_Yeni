@@ -51,5 +51,19 @@ namespace MvcWebUI.Areas.Account.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Register(AccountRegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = _accountService.Register(model);
+                if (result.IsSuccessful)
+                    return RedirectToAction(nameof(Login));
+                ModelState.AddModelError("", result.Message);
+            }
+            return View(model);
+        }
     }
 }

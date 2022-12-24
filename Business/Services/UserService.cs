@@ -23,7 +23,8 @@ namespace Business.Services
 
         public Result Add(UserModel model)
         {
-            if (_userRepo.Exists(u => u.UserName.ToUpper() == model.UserName.ToUpper()))
+            string userName = model.UserName.ToUpper(new System.Globalization.CultureInfo("tr-TR"));
+            if (_userRepo.Query().Any(u => u.UserName.ToUpper() == userName))
                 return new ErrorResult("User with the same name exists!");
             var entity = new User()
             {

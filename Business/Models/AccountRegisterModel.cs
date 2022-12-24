@@ -12,6 +12,11 @@ namespace Business.Models
 
         [Required]
         [StringLength(10)]
+        [Compare("ConfirmPassword", ErrorMessage = "Password and confirm password must be same!")]
         public string Password { get; set; }
+
+        [Required]
+        [StringLength(10)]
+        public string ConfirmPassword { get; set; }
     }
 }
