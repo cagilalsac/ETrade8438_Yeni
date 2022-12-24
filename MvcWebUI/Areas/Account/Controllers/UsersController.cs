@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace MvcWebUI.Areas.Account.Controllers
 {
+    [Area("Account")] // route üzerinden area adı
     public class UsersController : Controller
     {
         private readonly IAccountService _accountService;
@@ -39,6 +40,7 @@ namespace MvcWebUI.Areas.Account.Controllers
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    return RedirectToAction("Index", "Home", new { area = "" });
                 }
                 ModelState.AddModelError("", result.Message);
             }
