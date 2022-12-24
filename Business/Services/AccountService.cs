@@ -22,9 +22,11 @@ namespace Business.Services
 
         public Result Login(AccountLoginModel model, UserModel user)
         {
-            user = _userService.Query().SingleOrDefault(u => u.UserName == model.UserName && u.Password == model.Password && u.IsActive);
-            if (user is null)
+            var existingUser = _userService.Query().SingleOrDefault(u => u.UserName == model.UserName && u.Password == model.Password && u.IsActive);
+            if (existingUser is null)
                 return new ErrorResult("Username or password is incorrect!");
+            user.UserName = existingUser.UserName;
+            user.RoleNameDisplay = existingUser.RoleNameDisplay;
             return new SuccessResult();
         }
 

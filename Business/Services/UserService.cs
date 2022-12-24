@@ -43,19 +43,20 @@ namespace Business.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _userRepo.Dispose();
         }
 
         public IQueryable<UserModel> Query()
         {
-            return _userRepo.Query().OrderByDescending(u => u.IsActive).ThenBy(u => u.UserName).Select(u => new UserModel()
+            return _userRepo.Query(u => u.Role).OrderByDescending(u => u.IsActive).ThenBy(u => u.UserName).Select(u => new UserModel()
             {
                 Guid = u.Guid,
                 Id = u.Id,
                 IsActive = u.IsActive,
                 Password = u.Password,
                 RoleId = u.RoleId,
-                UserName = u.UserName
+                UserName = u.UserName,
+                RoleNameDisplay = u.Role.Name
             });
         }
 

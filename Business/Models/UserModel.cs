@@ -19,5 +19,8 @@ namespace Business.Models
         public bool IsActive { get; set; }
         public int RoleId { get; set; }
         #endregion
+
+
+        public string RoleNameDisplay { get; set; }
     }
 }

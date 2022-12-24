@@ -1,6 +1,7 @@
 ﻿using Business.Services;
 using DataAccess.Contexts;
 using DataAccess.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -20,6 +21,17 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedCultures = cultures;
     options.SupportedUICultures = cultures;
 });
+#endregion
+
+#region Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(config =>
+    {
+        config.LoginPath = "/Account/Users/Login";
+        config.AccessDeniedPath = "/Account/Users/AccessDenied";
+        config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        config.SlidingExpiration = true;
+    });
 #endregion
 
 // Add services to the container.
@@ -77,7 +89,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication(); // sen kimsin?
+
+app.UseAuthorization(); // sen işlem için yetkili misin?
 
 app.UseEndpoints(endpoints =>
 {
