@@ -10,6 +10,7 @@ using DataAccess.Contexts;
 using DataAccess.Entities;
 using Business.Services;
 using Business.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcWebUI.Controllers
 {
@@ -35,6 +36,8 @@ namespace MvcWebUI.Controllers
         }
 
         // GET: Products/Details/5
+        //[Authorize(Roles = "Admin,User")]
+        [Authorize]
         public IActionResult Details(int id)
         {
             ProductModel product = _productService.Query().SingleOrDefault(p => p.Id == id); // TODO: Add get item service logic here
@@ -47,6 +50,7 @@ namespace MvcWebUI.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             // Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
@@ -60,6 +64,7 @@ namespace MvcWebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(ProductModel product)
         {
             if (ModelState.IsValid)
@@ -77,6 +82,7 @@ namespace MvcWebUI.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             ProductModel product = _productService.Query().SingleOrDefault(p => p.Id == id); // TODO: Add get item service logic here
@@ -96,6 +102,7 @@ namespace MvcWebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(ProductModel product)
         {
             if (ModelState.IsValid)
@@ -114,6 +121,9 @@ namespace MvcWebUI.Controllers
         // GET: Products/Delete/5
         public IActionResult Delete(int id)
         {
+            if (!(User.Identity.IsAuthenticated && User.IsInRole("Admin")))
+                return View("_Error", "You don't have permission to this opeartion!");
+
             ProductModel product = _productService.Query().SingleOrDefault(p => p.Id == id); // TODO: Add get item service logic here
             if (product == null)
             {
@@ -127,6 +137,8 @@ namespace MvcWebUI.Controllers
         [HttpPost, ActionName("Delete"), ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
+            if (!User.IsInRole("Admin"))
+                return View("_Error", "You don't have permission to this opeartion!");
             // TODO: Add delete service logic here
             _productService.Delete(id);
             return RedirectToAction(nameof(Index));

@@ -65,5 +65,16 @@ namespace MvcWebUI.Areas.Account.Controllers
             }
             return View(model);
         }
+
+        public IActionResult AccessDenied()
+        {
+            return View("_Error", "You don't have access to this operation!");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home", new { area = "" });
+        }
     }
 }

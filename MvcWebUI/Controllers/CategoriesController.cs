@@ -10,9 +10,11 @@ using DataAccess.Contexts;
 using DataAccess.Entities;
 using Business.Services;
 using Business.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MvcWebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         // Add service injections here
@@ -24,6 +26,7 @@ namespace MvcWebUI.Controllers
         }
 
         // GET: Categories
+        [AllowAnonymous]
         public IActionResult Index()
         {
             List<CategoryModel> categoryList = _categoryService.Query().ToList(); // TODO: Add get list service logic here
@@ -31,6 +34,8 @@ namespace MvcWebUI.Controllers
         }
 
         // GET: Categories/Details/5
+        //[Authorize(Roles = "Admin,User")]
+        [Authorize]
         public IActionResult Details(int id)
         {
             CategoryModel category = _categoryService.Query().SingleOrDefault(c => c.Id == id); // TODO: Add get item service logic here

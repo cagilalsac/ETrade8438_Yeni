@@ -23,8 +23,11 @@ namespace Business.Services
 
         public Result Add(UserModel model)
         {
-            string userName = model.UserName.ToUpper(new System.Globalization.CultureInfo("tr-TR"));
-            if (_userRepo.Query().Any(u => u.UserName.ToUpper() == userName))
+            //string userName = model.UserName.ToUpper(new System.Globalization.CultureInfo("tr-TR"));
+            //if (_userRepo.Query().Any(u => u.UserName.ToUpper() == userName))
+            //    return new ErrorResult("User with the same name exists!");
+            var users = _userRepo.Query().ToList();
+            if (users.Any(u => u.UserName.Equals(model.UserName, StringComparison.OrdinalIgnoreCase)))
                 return new ErrorResult("User with the same name exists!");
             var entity = new User()
             {
