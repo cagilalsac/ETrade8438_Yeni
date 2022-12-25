@@ -6,9 +6,12 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
-    <a asp-action="Create">Create New Product</a>
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <a asp-action="Create">Create New Product</a>
+    </p>
+}
 <table id="products" class="display" style="width:100%">
     <thead>
         <tr>
@@ -34,35 +37,47 @@
         </tr>
     </thead>
     <tbody>
-		@foreach (var item in Model) {
-				<tr>
-					<td>
-						@Html.DisplayFor(modelItem => item.Name)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.UnitPriceDisplay)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.StockAmount)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.ExpirationDateDisplay)
-					</td>
-					<td>
-						@Html.DisplayFor(modelItem => item.CategoryDisplay)
-					</td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPriceDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpirationDateDisplay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryDisplay)
+                </td>
                 <td>
                     @Html.Raw(item.StoresDisplay)
                 </td>
-					<td>
-                        @*@Html.ActionLink("Details", "Details", new { id = item.Id })*@
-                        @*<a asp-action="Details" asp-controller="Products" asp-route-id="@item.Id">Details</a>*@
-						<a asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;|&nbsp;
-						<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;|&nbsp;
-						<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-					</td>
-				</tr>
-		}
+                <td>
+                    @*@Html.ActionLink("Details", "Details", new { id = item.Id })*@
+                    @*<a asp-action="Details" asp-controller="Products" asp-route-id="@item.Id">Details</a>*@
+
+
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        @:&nbsp;|&nbsp;
+                        if (User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                            <text>&nbsp;|&nbsp;</text>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
@@ -71,7 +86,7 @@
     <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
 
     <script>
-        $(function(){
+        $(function () {
             $("#products").DataTable();
         });
     </script>
