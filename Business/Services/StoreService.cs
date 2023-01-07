@@ -9,6 +9,8 @@ namespace Business.Services
 {
     public interface IStoreService : IService<StoreModel>
     {
+        List<StoreModel> GetList();
+        StoreModel GetItem(int id);
     }
 
     public class StoreService : IStoreService
@@ -68,6 +70,16 @@ namespace Business.Services
             };
             _storeRepo.Update(entity);
             return new SuccessResult();
+        }
+
+        public List<StoreModel> GetList()
+        {
+            return Query().ToList();
+        }
+
+        public StoreModel GetItem(int id)
+        {
+            return Query().SingleOrDefault(s => s.Id == id);
         }
     }
 }

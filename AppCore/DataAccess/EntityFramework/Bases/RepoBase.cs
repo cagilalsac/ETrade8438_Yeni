@@ -30,6 +30,11 @@ namespace AppCore.DataAccess.EntityFramework.Bases
             return query;
         }
 
+        public virtual IQueryable<TRelationalEntity> Query<TRelationalEntity>() where TRelationalEntity : class, new()
+        {
+            return DbContext.Set<TRelationalEntity>().AsQueryable();
+        }
+
         public virtual bool Exists(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object?>>[] entitiesToInclude)
         {
             return Query(entitiesToInclude).Any(predicate);

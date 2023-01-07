@@ -48,6 +48,7 @@ builder.Services.AddDbContext<ETradeContext>(options => options.UseSqlServer(con
 // AddTransient: istek (request) baðýmsýz ihtiyaç olan objenin referansýný (genelde interface veya abstract class) kullandýðýmýz her yerde bu objeyi new'ler.
 //builder.Services.AddSingleton<ProductRepoBase, ProductRepo>();
 //builder.Services.AddTransient<ProductRepoBase, ProductRepo>();
+
 builder.Services.AddScoped<ProductRepoBase, ProductRepo>();
 builder.Services.AddScoped<CategoryRepoBase, CategoryRepo>();
 builder.Services.AddScoped<StoreRepoBase, StoreRepo>();
@@ -60,6 +61,8 @@ builder.Services.AddScoped<IStoreService, StoreService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+
+builder.Services.AddScoped<IReportService, ReportService>();
 #endregion
 
 

@@ -19,14 +19,14 @@ namespace MvcWebUI.Controllers
         // GET: Stores
         public IActionResult Index()
         {
-            List<StoreModel> storeList = _storeService.Query().ToList(); // Add get list service logic here
+            List<StoreModel> storeList = _storeService.GetList(); // Add get list service logic here
             return View(storeList);
         }
 
         // GET: Stores/Details/5
         public IActionResult Details(int id)
         {
-            StoreModel store = _storeService.Query().SingleOrDefault(s => s.Id == id); // Add get item service logic here
+            StoreModel store = _storeService.GetItem(id); // Add get item service logic here
             if (store == null)
             {
                 return View("_Error", "Store not found!");
@@ -63,7 +63,7 @@ namespace MvcWebUI.Controllers
         // GET: Stores/Edit/5
         public IActionResult Edit(int id)
         {
-            StoreModel store = _storeService.Query().SingleOrDefault(s => s.Id == id); // Add get item service logic here
+            StoreModel store = _storeService.GetItem(id); // Add get item service logic here
             if (store == null)
             {
                 return View("_Error", "Store not found!");
@@ -94,7 +94,7 @@ namespace MvcWebUI.Controllers
         // GET: Stores/Delete/5
         public IActionResult Delete(int id)
         {
-            StoreModel store = _storeService.Query().SingleOrDefault(s => s.Id == id); // Add get item service logic here
+            StoreModel store = _storeService.GetItem(id); // Add get item service logic here
             if (store == null)
             {
                 return View("_Error", "Store not found!");
