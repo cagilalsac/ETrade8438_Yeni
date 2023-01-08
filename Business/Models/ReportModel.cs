@@ -6,6 +6,7 @@ namespace Business.Models
 {
     public class ReportModel
     {
+        #region Display
         [DisplayName("Product Name")]
         public string ProductName { get; set; }
 
@@ -26,5 +27,11 @@ namespace Business.Models
 
         [DisplayName("Virtual")]
         public string Virtual { get; set; }
+        #endregion
+
+        #region Filter
+        public int CategoryId { get; set; }
+        public double UnitPriceValue { get; set; }
+        #endregion
     }
 }

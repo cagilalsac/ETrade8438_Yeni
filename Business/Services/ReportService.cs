@@ -6,7 +6,7 @@ namespace Business.Services
 {
     public interface IReportService
     {
-        List<ReportModel> GetListInnerJoin();
+        List<ReportModel> GetListInnerJoin(ReportFilterModel filter);
     }
 
     /*
@@ -34,7 +34,7 @@ namespace Business.Services
             _productRepo = productRepo;
         }
 
-        public List<ReportModel> GetListInnerJoin()
+        public List<ReportModel> GetListInnerJoin(ReportFilterModel filter)
         {
             var productQuery = _productRepo.Query();
             var categoryQuery = _productRepo.Query<Category>();
@@ -51,15 +51,39 @@ namespace Business.Services
                         //orderby category.Name
                         select new ReportModel()
                         {
+                            // Display
                             CategoryName = category.Name,
                             ExpirationDate = product.ExpirationDate.HasValue ? product.ExpirationDate.Value.ToString("MM/dd/yyyy") : "",
                             ProductName = product.Name,
                             StockAmount = product.StockAmount + " units",
                             StoreName = store.Name,
                             UnitPrice = product.UnitPrice.ToString("C2"),
-                            Virtual = store.IsVirtual ? "Yes" : "No"
+                            Virtual = store.IsVirtual ? "Yes" : "No",
+
+                            // Filter
+                            CategoryId = category.Id,
+                            UnitPriceValue = product.UnitPrice
                         };
             query = query.OrderBy(q => q.CategoryName).ThenBy(q => q.ProductName);
+            if (filter is not null)
+            {
+                if (!string.IsNullOrWhiteSpace(filter.ProductName))
+                {
+                    query = query.Where(q => q.ProductName.ToUpper().Contains(filter.ProductName.ToUpper().Trim()));
+                }
+                if (filter.CategoryId.HasValue)
+                {
+                    query = query.Where(q => q.CategoryId == filter.CategoryId.Value);
+                }
+                if (filter.UnitPriceBegin.HasValue)
+                {
+                    query = query.Where(q => q.UnitPriceValue >= filter.UnitPriceBegin);
+                }
+                if (filter.UnitPriceEnd.HasValue)
+                {
+                    query = query.Where(q => q.UnitPriceValue <= filter.UnitPriceEnd);
+                }
+            }
             return query.ToList();
         }
 

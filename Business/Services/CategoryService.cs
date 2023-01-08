@@ -4,12 +4,13 @@ using AppCore.Results.Bases;
 using Business.Models;
 using DataAccess.Entities;
 using DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
     public interface ICategoryService : IService<CategoryModel>
     {
-
+        Task<List<CategoryModel>> GetListAsync();
     }
 
     public class CategoryService : ICategoryService
@@ -74,6 +75,15 @@ namespace Business.Services
             };
             _categoryRepo.Update(entity);
             return new SuccessResult("Category updated successfully.");
+        }
+
+        public async Task<List<CategoryModel>> GetListAsync()
+        {
+            //Task<List<CategoryModel>> task = Query().ToListAsync();
+            //List<CategoryModel> categories = task.Result;
+
+            List<CategoryModel> categories = await Query().ToListAsync();
+            return categories;
         }
     }
 }

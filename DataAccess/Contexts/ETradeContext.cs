@@ -17,7 +17,7 @@ namespace DataAccess.Contexts
 
         public ETradeContext(DbContextOptions options) : base(options)
         {
-
+             
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

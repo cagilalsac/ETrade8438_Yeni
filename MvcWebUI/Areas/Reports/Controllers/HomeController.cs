@@ -1,6 +1,7 @@
 ﻿using Business.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MvcWebUI.Areas.Reports.Models;
 
 namespace MvcWebUI.Areas.Reports.Controllers
@@ -10,18 +11,18 @@ namespace MvcWebUI.Areas.Reports.Controllers
     public class HomeController : Controller
     {
         private readonly IReportService _reportService;
+        private readonly ICategoryService _categoryService;
 
-        public HomeController(IReportService reportService)
+        public HomeController(IReportService reportService, ICategoryService categoryService)
         {
             _reportService = reportService;
+            _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(HomeIndexViewModel viewModel)
         {
-            HomeIndexViewModel viewModel = new HomeIndexViewModel()
-            {
-                Report = _reportService.GetListInnerJoin()
-            };
+            viewModel.Report = _reportService.GetListInnerJoin(viewModel.Filter);
+            viewModel.Categories = new SelectList(_categoryService.Query().ToList(), "Id", "Name");
             return View(viewModel);
         }
     }
